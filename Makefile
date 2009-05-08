@@ -13,7 +13,7 @@ BASHFILES := alias envvar envvar-int functions lib
 RLFILES := inputrc
 COMPFILES := func
 
-.PHONY: major minor micro
+.PHONY: ChangeLog major minor micro
 
 all:
 	$(info Installing this package will overwrite important \
@@ -37,6 +37,11 @@ endif
 		install -m 644 bash_completion.d/$$file \
 			$(DESTDIR)$(HOME)/.bash_completion.d/$$file; \
 	done
+
+ChangeLog:
+	echo "ChangeLog for dotbash v$(VERSION)" >$@; \
+	echo >>$@; \
+	git log --graph --date=short --stat -- `git ls-files | grep -v ^.be` >>$@
 
 major:
 	new_VERSION=$$(($(VERSION_MAJ)+1)).0.0; \
