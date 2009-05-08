@@ -1,0 +1,203 @@
+# ~/.bash/inputrc
+# vim: set syntax=readline filetype=readline sw=4 sts=4 et tw=80 fileencoding=utf-8:
+
+set bell-style audible
+set blink-matching-paren on
+set byte-oriented off
+set completion-ignore-case off
+set completion-query-items 100
+set convert-meta off
+set disable-completion off
+set editing-mode emacs
+set enable-keypad off
+set expand-tilde off
+set history-preserve-point on
+set horizontal-scroll-mode off
+set input-meta on
+set keymap emacs
+set mark-directories on
+set mark-modified-lines off
+set mark-symlinked-directories on
+set match-hidden-files on
+set meta-flag on
+set output-meta on
+set page-completions on
+set prefer-visible-bell off
+set print-completions-horizontally off
+set show-all-if-ambiguous on
+set visible-stats on
+
+"\C-xp": "PATH=${PATH}\e\C-e\C-a\ef\C-f"
+"\C-x\"": "\"\"\C-b"
+"\C-?": backward-delete-char
+"\C-@": set-mark
+"\C-]": character-search
+"\C-_": undo
+"\C-a": beginning-of-line
+"\C-b": backward-char
+"\C-d": delete-char
+"\C-e": end-of-line
+"\C-f": forward-char
+"\C-g": abort
+"\C-h": backward-delete-char
+"\C-i": complete
+"\C-j": accept-line
+"\C-k": kill-line
+"\C-l": clear-screen
+"\C-m": accept-line
+"\C-n": next-history
+"\C-o": operate-and-get-next
+"\C-p": previous-history
+"\C-q": quoted-insert
+"\C-r": reverse-search-history
+"\C-s": forward-search-history
+"\C-t": transpose-chars
+"\C-u": unix-line-discard
+"\C-v": quoted-insert
+"\C-w": unix-word-rubout
+"\C-x!": possible-command-completions
+"\C-x$": possible-variable-completions
+"\C-x(": start-kbd-macro
+"\C-x)": end-kbd-macro
+"\C-x*": glob-expand-word
+"\C-x/": possible-filename-completions
+"\C-x@": possible-hostname-completions
+"\C-x\C-?": backward-kill-line
+"\C-x\C-e": edit-and-execute-command
+"\C-x\C-g": abort
+"\C-x\C-r": re-read-init-file
+"\C-x\C-u": undo
+"\C-x\C-v": display-shell-version
+"\C-x\C-x": exchange-point-and-mark
+"\C-xd": dump-functions
+"\C-xe": call-last-kbd-macro
+"\C-xg": glob-list-expansions
+"\C-x~": possible-username-completions
+"\C-y": yank
+"\M- ": set-mark
+"\M-!": complete-command
+"\M-$": complete-variable
+"\M-&": tilde-expand
+"\M-*": insert-completions
+"\M--": digit-argument
+"\M-.": insert-last-argument
+"\M-.": yank-last-arg
+"\M-/": complete-filename
+"\M-0": digit-argument
+"\M-1": digit-argument
+"\M-2": digit-argument
+"\M-3": digit-argument
+"\M-4": digit-argument
+"\M-5": digit-argument
+"\M-6": digit-argument
+"\M-7": digit-argument
+"\M-8": digit-argument
+"\M-9": digit-argument
+"\M-<": beginning-of-history
+"\M-=": possible-completions
+"\M->": end-of-history
+"\M-?": possible-completions
+"\M-@": complete-hostname
+"\M-OA": previous-history
+"\M-OB": next-history
+"\M-OF": end-of-line
+"\M-OH": beginning-of-line
+"\M-Oc": forward-word
+"\M-Od": backward-word
+"\M-[11~": redraw-current-line
+"\M-[12~": menu-complete
+"\M-[13~": dynamic-complete-history
+"\M-[14~": dump-variables
+"\M-[15~": dump-macros
+"\M-[17~": "\\u20AC "
+"\M-[1~": beginning-of-line
+"\M-[2~": quoted-insert
+"\M-[3~": delete-char
+"\M-[4~": end-of-line
+"\M-[5~": beginning-of-history
+"\M-[6~": end-of-history
+"\M-[A": previous-history
+"\M-[B": next-history
+"\M-[C": forward-char
+"\M-[D": backward-char
+"\M-[F": end-of-line
+"\M-[H": beginning-of-line
+"\M-\C-?": backward-kill-word
+"\M-\C-]": character-search-backward
+"\M-\C-e": shell-expand-line
+"\M-\C-g": abort
+"\M-\C-h": backward-kill-word
+"\M-\C-i": dynamic-complete-history
+"\M-\C-r": revert-line
+"\M-\C-y": yank-nth-arg
+"\M-\\": delete-horizontal-space
+"\M-\e": complete
+"\M-^": history-expand-line
+"\M-_": insert-last-argument
+"\M-_": yank-last-arg
+"\M-b": backward-word
+"\M-c": capitalize-word
+"\M-d": kill-word
+"\M-f": forward-word
+"\M-g": glob-complete-word
+"\M-l": downcase-word
+"\M-n": non-incremental-forward-search-history
+"\M-p": non-incremental-reverse-search-history
+"\M-r": revert-line
+"\M-t": transpose-words
+"\M-u": upcase-word
+"\M-y": yank-pop
+"\M-{": complete-into-braces
+"\M-~": complete-username
+
+$if term=linux
+	"\e[11~": "ls -l "
+$else
+	"\e[11~": "ls -l "
+	"\e[12~": "du -sh "
+	"\e[13~": "${EDITOR} "
+	"\e[14~": "tar jxfvv "
+	"\e[15~": "tar jcvf "
+	#"\e[17~": "Function key 6"
+	#"\e[18~": "Function key 7"
+	#"\e[19~": "Function key 8"
+	#"\e[20~": "Function key 9"
+	#"\e[21~": "Function key 10"
+$endif
+
+# These two settings make <up> and <down> work as incremental searches.
+# Instead of using C-r to search you can use "blue<up>" to scan through
+# history matches beginning with the string "blue".  The old behaviour
+# is still available with C-p and C-n.
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+"\M-o": "\C-p\C-a\M-f "
+
+"\C-x\C-e": shell-expand-line
+
+# Macro to enclose the current word in quotes.
+"\C-xq": "\M-Od\"\M-Oc\""
+
+# Macro to jump back a line, and move the cursor to just after the
+# command line.  Quick shortcut to be used when the user has forgotten
+# to add a necessary command line option.
+"\M-o": "\C-p\C-a\M-f "
+
+# The magic-space option will expand a line with any history based
+# modifiers in it if you type a space after the modifier(ie "file !-3
+# ").
+#
+# NOTE: Does this actually result in a fail in any known/used readline
+# based tools if not available?
+$if Bash
+	Space: magic-space
+$endif
+
+# The following makes indent and unindent easier to use from inside
+# ipython sessions
+$if Python
+	"\M-i": "    "
+	"\M-u": "\d\d\d\d"
+$endif
+
