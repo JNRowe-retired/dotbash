@@ -1,0 +1,137 @@
+# ~/.bash/functions
+# vim: set syntax=sh filetype=sh sw=4 sts=4 et tw=80 fileencoding=utf-8:
+
+have()
+{
+    type -p ${1} >/dev/null
+}
+
+alias-add()
+{
+    if [ "${#}" != 2 -o "${1}" = "--help" ]
+    then
+        echo "Usage:  ${FUNCNAME} name value"
+        echo "Adds an alias to the running shell, and also the file \`~/.bash/alias'."
+        return 1
+    else
+        local name=${1} value="${2}"
+    fi
+    echo "alias ${name}='${value}'" >>${HOME}/.bash/alias-local
+    eval alias ${name}=\'${value}\'
+    alias ${name}
+}
+
+func()
+{
+    if [ "${#}" -eq 0 -o "${1}" = "--help" ]
+    then
+        echo "Usage:  ${FUNCNAME} name [name...]"
+        echo "Display the source of a bash function."
+        return 1
+    fi
+
+    local status=0 f
+
+    for f in $@
+    do
+        if [ "$(builtin type -type ${f})" != "function" ]
+        then
+            echo "${FUNCNAME}: ${f}: not a function" >&2
+            status=1
+            continue
+        fi
+        builtin type ${f} | tail -n +2
+    done
+    return ${status}
+}
+
+man()
+{
+    local opts=$@
+    xtitle "Manual page for ${opts##* }"
+    command man ${opts}
+}
+
+mkcd()
+{
+    if [ "${#}" -lt 1 -o "${1}" = "--help" ]
+    then
+        echo "Usage:  ${FUNCNAME} [string]"
+        echo "Make the directory \${string}, and the change to it."
+    else
+        mkdir ${1}
+        cd ${1}
+    fi
+}
+
+mkdiff()
+{
+    if [ -z ${1} -o "${1}" = "--help" ]
+    then
+        echo "Usage:  ${FUNCNAME} [path1] [path2] [patchname]"
+        echo "Generate recursive unified diffs."
+        echo "*  Supplying 1 parameter will make ${FUNCNAME} generate a patch by that name of"
+        echo "   a/ and b/."
+        echo "*  Supplying 2 parameters will generate a diff of \${parameter1} and"
+        echo "   \${parameter2} and send the output through colourdiff."
+        echo "*  Supplying 3 parameters will generate a diff of \${parameter1} and"
+        echo "   \${parameter2} and place the diff output in \${parameter3}."
+        return 1
+    fi
+    local arg="${#}"
+    [ "${1}" = "-f" ] && arg=4
+    case "${#}" in
+    1)
+        diff -prauN a/ b/ >${1/\.patch}.patch ;;
+    2)
+        diff -prauN ${1} ${2} | colourdiff - ;;
+    3)
+        diff -prauN ${1} ${2} >${3/\.patch}.patch ;;
+    *)
+        echo "${FUNCNAME}: invalid args \`$*'" >&2
+        return 1 ;;
+    esac
+}
+
+have mutt &&
+mutt()
+{
+    xtitle "Mutt"
+    command mutt $@
+}
+
+repcom()
+{
+    if [ "${1}" = "--help" -o -z "${1}" ]
+    then
+        echo "Usage:  ${FUNCNAME} command"
+        echo "Repeat a command until it exits successfully."
+        echo -e "\033[1;31;01mNote:\033[0m Be careful when using this command as it is easy to get a hard to"
+        echo "break infinite looop with user error."
+        return 1
+    fi
+    until $@
+    do
+        sleep 2s
+    done
+}
+
+top()
+{
+    xtitle "Processes on ${HOSTNAME}"
+    command top $@
+}
+
+xtitle()
+{
+    if [ "${#}" -lt 1 -o "${1}" = "--help" ]
+    then
+        echo "Usage:  ${FUNCNAME} [string]"
+        echo "Set the title of an xterm to \${string}."
+    else
+        [ ! -z "${DISPLAY}" ] && echo -en "\033]0;$*\007"
+    fi
+}
+
+unset have
+
