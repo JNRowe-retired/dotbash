@@ -1,0 +1,144 @@
+# ~/.bash/envvar-int
+# vim: set syntax=sh filetype=sh sw=4 sts=4 et tw=80 fileencoding=utf-8:
+
+# Set the default browser, used by XFCE mainly.
+#export BROWSER=opera
+
+# Set the search path for cd.  Make sure to include ".".
+#makepath CDPATH ~/Desktop
+
+# Set the path to the default CVS repository.
+#export CVSROOT=/home/cvsroot
+
+# Set a filter that completion will ignore.  The example below will
+# ignore backup files such as file~ or file.bak, and compiled common
+# compiled files such as file.o and lib.so
+export FIGNORE="~:.o:.so:.bak"
+
+# Set the option that bash uses to save history, the default value of
+# "ignoreboth" will ignore lines that begin with a space and also
+# duplicate history items.
+export HISTCONTROL=ignoreboth:erasedups
+# Set the filename used for storing bash's command history.  If you
+# unset this variable history will not be saved.
+export HISTFILE=~/.bash/history
+# Set the number of lines of command history to save in HISTFILE
+export HISTFILESIZE=2048
+# Set the colon seperated list of commands that will never be added to
+# the history file.  The pattern must match the entire line, so 'ls'
+# will not ignore lines like 'ls /usr/src/' you must add a '*' to ignore
+# any line with ls at the start.
+export HISTIGNORE="ls:ll:exit:ls -l:mc"
+# Set the number of commands to remember in a bash session's history.
+export HISTSIZE=512
+# Set the format for history timestamps, using a strftime(3) format
+# string.
+export HISTTIMEFORMAT="%Y-%m-%dT%H:%M:%S%z "
+
+# The file used to complete hostnames, it must be in the same format as
+# the default file /etc/hosts.
+export HOSTFILE=/etc/hosts
+
+# Set the number of times a user must enter EOF to exit a shell(normally
+# C-d).  The default of 0 means the shell will exit with the first EOF
+export IGNOREEOF=0
+
+# Set the filename for used for readline configuration.
+export INPUTRC=~/.bash/inputrc
+
+# Set the LS_COLORS envvar
+eval $(dircolors --bourne-shell)
+
+# Set the number of seconds between bash checking for new mail in your
+# user spool. 0 or unset to disable checking.
+export MAILCHECK=60
+# Set a list of filenames to be checked for mail, and also an optional
+# message to display when mail arrives(separated with a ?).
+#export MAILPATH='/var/spool/mail/${USER}?You have mail!"
+
+# Setting this variable will make bash behave as a POSIX compliant
+# /bin/sh.
+#export POSIXLY_CORRECT=
+
+# This variable is used to define the default shell, used mainly by XFCE
+export TERMCMD=urxvtc
+
+# This variable sets the way bash displays timing information produced
+# with time command.  Unset this variable to disable timing information
+# output.
+export TIMEFORMAT=$'\nreal\t%3lR\nuser\t%3lU\nsys \t%3lS\nCPU \t%P'
+
+# This variable allows the user to set auto-logout after a period(in
+# seconds) of no input.
+export TMOUT=0
+
+# Notify immediately when a job completes
+set -o notify
+
+# If you uncomment the next line redirection will not be able to
+# overwrite files.  BE CAREFUL - this option can break many scripts.
+#set -o  noclobber
+
+# The next two set commands enable debugging features in bash.
+# xtrace will display all commands and their args as a script or command
+# is processed.
+# noexec will run through commands but not actually execute them.
+#set -o xtrace
+#set -o noexec
+
+# This option tells bash to check that a file exists if a path is found
+# in its hash db.  If not a full search is run.  It will stop the errors
+# that occur when you move a file you have already used, but it will
+# slow down normal circumstances due to the extra check.  The better
+# option is to run 'hash -r' or 'hash -d ${moved_command}' if this error
+# ever happens.
+#shopt -s checkhash
+
+# Make bash append to the history file as opposed to overwriting it.
+# This option used in conjunction with PROMPT_COMMAND="history -a" will
+# result in any new shell getting receiving the history file which
+# includes the history of all currently open shells(as long as the
+# history is still within the HISTFILE{,SIZE} limits.
+shopt -s histappend
+#export PROMPT_COMMAND="history -a; history -r"
+
+# Set the options for ccache(1).
+#export CCACHE_DIR=/var/tmp/ccache/${USER}
+#export CCACHE_LOGFILE=~/ccache.log
+#makepath CCACHE_PATH /usr/local/bin /usr/bin
+#export CCACHE_CC=/usr/local/bin/gcc
+#export CCACHE_HARDLINK=yes
+#export CC="ccache /usr/local/bin/gcc"
+#export CXX="ccache /usr/local/bin/g++"
+
+# Default to ISO-8601 style date formats for ls.
+export TIME_STYLE=long-iso
+
+# Use PROMPT_COMMAND to set xterm title bars.
+[ -n "${DISPLAY}" ] && \
+    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/${HOME}/~}\007"'
+
+# Don't lock with C-s
+stty stop undef
+
+# Prepend exit code to prompt
+__retval_colour()
+{
+    case $? in
+    0)
+        RETVAL_COLOUR="01;32" ;;
+    *)
+        RETVAL_COLOUR="01;31" ;;
+    esac
+}
+PROMPT_COMMAND="__retval_colour; ${PROMPT_COMMAND}"
+PS1='\[[${RETVAL_COLOUR}m\]$?\[[0m\]'" ${PS1}"
+
+# Use single hierarchy for XDG basedir spec, if it exists
+if [ -d ~/.xdg ]
+then
+    [ -d ~/.xdg/config ] && export XDG_CONFIG_HOME=~/.xdg/config
+    [ -d ~/.xdg/cache ] && export XDG_CACHE_HOME=~/.xdg/cache
+    [ -d ~/.xdg/local ] && export XDG_DATA_HOME=~/.xdg/local
+fi
+
