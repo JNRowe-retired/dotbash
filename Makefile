@@ -15,7 +15,7 @@ COMPFILES := func
 
 DIRT := ChangeLog TODO
 
-.PHONY: ChangeLog clean distclean major minor micro patchclean
+.PHONY: ChangeLog clean distclean major minor micro patchclean test
 
 all:
 	$(info Installing this package will overwrite important \
@@ -38,6 +38,13 @@ endif
 	for file in $(COMPFILES); do \
 		install -m 644 bash_completion.d/$$file \
 			$(DESTDIR)$(HOME)/.bash_completion.d/$$file; \
+	done
+
+test: $(DOTFILES) $(addprefix bash/, $(BASHFILES)) \
+	$(addprefix bash_completion.d/, $(COMPFILES))
+	for i in $^; do \
+		bash -c "source $${i}" >/dev/null 2>&1 \
+			|| echo "Syntax error(s) in $${i}"; \
 	done
 
 ChangeLog:
