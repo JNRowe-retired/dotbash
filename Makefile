@@ -26,6 +26,8 @@ DIRT := ChangeLog TODO
 all:
 	$(info Installing this package will overwrite important \
 		configuration files in your home directory)
+	$(info Use `make install' to do a user installation of dotbash $(VERSION))
+	$(info Or `make skel-install' to install in to /etc/skel)
 
 install:
 ifneq ($(NOT_A_MORON), true)
