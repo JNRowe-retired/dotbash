@@ -52,6 +52,11 @@ ChangeLog:
 	echo >>$@; \
 	git log --graph --date=short --stat -- `git ls-files | grep -v ^.be` >>$@
 
+TODO: .be
+	echo "Todo list for dotbash" >$@; \
+	echo >>$@; \
+	be list >>$@
+
 major:
 	new_VERSION=$$(($(VERSION_MAJ)+1)).0.0; \
 	git tag -s -m"Tagged $$new_VERSION" $$new_VERSION
