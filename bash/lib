@@ -1,0 +1,25 @@
+# ~/.bash/lib
+# vim: set syntax=sh filetype=sh sw=4 sts=4 et tw=80 fileencoding=utf-8:
+
+makepath()
+{
+    local expand path elems newpath
+    if [ $1 == "-e" ]
+    then
+       expand=true
+       shift
+    fi
+    path=$1 elems=($@)
+    shift
+    for elem in ${elems[@]}
+    do
+        [ -d ${elem} ] || continue
+        newpath+=:$elem
+    done
+    if [ "${expand}" == "true" -a ! -z "${!path}" ]
+    then
+        newpath=:${!path}${newpath}
+    fi
+    eval ${path}=${newpath:1:$((${#newpath} - 1))}
+}
+
