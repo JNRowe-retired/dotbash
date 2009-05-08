@@ -1,0 +1,42 @@
+# ~/.bash_login
+# vim: set syntax=sh filetype=sh sw=4 sts=4 et tw=80 fileencoding=utf-8:
+
+if [ "${-/i/}" != "${-}" ]
+then
+    [ -f /etc/bashrc ] && . /etc/bashrc
+fi
+
+[ -f ~/.bash/lib ] && . ~/.bash/lib
+
+# Set a reasonable file creation mask.
+umask 022
+
+# Envvars that are used if a shell is interactive or not.
+[ -f ~/.bash/envvar ] && . ~/.bash/envvar
+
+# Startup files for interactive shells only.
+if [ "${-/i/}" != "${-}" ]
+then
+    for file in alias envvar-int functions
+    do
+        [ -f ~/.bash/${file} ] && . ~/.bash/${file}
+        [ -f ~/.bash/${file}-local ] && . ~/.bash/${file}-local
+        [ -f ~/.bash/${file}-${HOSTNAME} ] && . ~/.bash/${file}-${HOSTNAME}
+    done
+    unset file
+    [ -f /usr/share/cdargs/cdargs-bash.sh ] && . /usr/share/cdargs/cdargs-bash.sh
+    if [ -f /etc/profile.d/bash-completion ]
+    then
+        . /etc/profile.d/bash-completion
+    elif [ -f /etc/bash_completion ]
+    then
+        . /etc/bash_completion
+        [ -f ~/.bash/completion-local ] && . ~/.bash/completion-local
+        [ -f ~/.bash/completion-${HOSTNAME} ] && . ~/.bash/completion-${HOSTNAME}
+    fi
+
+    [ -f ~/.bash/hosts/${HOSTNAME} ] && . ~/.bash/hosts/${HOSTNAME}
+fi
+
+[ -f ${HOME}/.startx ] && [ ${TTY} = /dev/tty1 ] && exec startx
+
