@@ -13,9 +13,15 @@ BASHFILES := alias envvar envvar-int functions lib
 RLFILES := inputrc
 COMPFILES := func
 
+# Rewrite with locations
+BASHFILES := $(addprefix bash/, $(BASHFILES))
+RLFILES := $(addprefix bash/, $(RLFILES))
+COMPFILES := $(addprefix bash_completion.d/, $(COMPFILES))
+
 DIRT := ChangeLog TODO
 
-.PHONY: ChangeLog clean distclean major minor micro patchclean test
+.PHONY: ChangeLog _gen_dist clean dist distclean major minor micro patchclean \
+	snapshot test
 
 all:
 	$(info Installing this package will overwrite important \
@@ -32,16 +38,14 @@ endif
 	ln -sf .bash_login $(DESTDIR)$(HOME)/.bashrc
 	mkdir $(DESTDIR)$(HOME)/.bash; \
 	for file in $(BASHFILES) $(RLFILES); do \
-		install -m 644 bash/$$file $(DESTDIR)$(HOME)/.bash/$$file; \
+		install -m 644 $$file $(DESTDIR)$(HOME)/.bash/$$file; \
 	done
 	mkdir $(DESTDIR)$(HOME)/.bash_completion.d; \
 	for file in $(COMPFILES); do \
-		install -m 644 bash_completion.d/$$file \
-			$(DESTDIR)$(HOME)/.bash_completion.d/$$file; \
+		install -m 644 $$file $(DESTDIR)$(HOME)/.bash_completion.d/$$file; \
 	done
 
-test: $(DOTFILES) $(addprefix bash/, $(BASHFILES)) \
-	$(addprefix bash_completion.d/, $(COMPFILES))
+test: $(DOTFILES) $(BASHFILES) $(COMPFILES)
 	for i in $^; do \
 		bash -c "source $${i}" >/dev/null 2>&1 \
 			|| echo "Syntax error(s) in $${i}"; \
@@ -73,4 +77,18 @@ distclean: clean
 	rm $(DIRT)
 patchclean:
 	find -name *.orig -name *.rej -exec rm {} \;
+
+dist: DISTNAME=dotbash-$(VERSION)
+dist: _gen_dist
+snapshot: DISTNAME=dotbash-$(shell date -I)
+snapshot: _gen_dist
+_gen_dist: README.rst ChangeLog TODO $(DOTFILES) $(BASHFILES) $(RLFILES) \
+	$(COMPFILES)
+	-mkdir -p $(DISTNAME)/bash{,_completion.d}; \
+	cp $(DOTFILES) README.rst ChangeLog TODO $(DISTNAME); \
+	cp $(BASHFILES) $(RLFILES) $(DISTNAME)/bash; \
+	cp $(COMPFILES) $(DISTNAME)/bash_completion.d; \
+	tar cjfv $(DISTNAME).tar.bz2 \
+		`find $(DISTNAME) -not -type d | sort`; \
+	rm -rf $(DISTNAME)
 
