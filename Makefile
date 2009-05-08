@@ -1,6 +1,9 @@
 # vim: set syntax=make sw=4 sts=4 noet tw=80 fileencoding=utf-8:
 
 SHELL := bash
+INSTALL := $(shell type -P ginstall >/dev/null && echo ginstall || echo install)
+INSTALL_DIR := $(INSTALL) -d
+INSTALL_DATA := $(INSTALL) -m 644 -p
 
 VERSION := $(shell git tag -l | sort -n)
 VERSION_MAJ := $(word 1, $(subst ., , $(VERSION)))
@@ -33,18 +36,19 @@ install:
 ifneq ($(NOT_A_MORON), true)
 	$(error Installing this package can wreck your configuration files)
 endif
-	mkdir -p $(DESTDIR)/$(HOME); \
+	$(INSTALL_DIR) $(DESTDIR)/$(HOME); \
 	for file in $(DOTFILES); do \
-		install -m 644 $$file $(DESTDIR)$(HOME)/.$$file; \
+		$(INSTALL_DATA) $$file $(DESTDIR)$(HOME)/.`basename $$file`; \
 	done
 	ln -sf .bash_login $(DESTDIR)$(HOME)/.bashrc
-	mkdir $(DESTDIR)$(HOME)/.bash; \
+	$(INSTALL_DIR) $(DESTDIR)$(HOME)/.bash; \
 	for file in $(BASHFILES) $(RLFILES); do \
-		install -m 644 $$file $(DESTDIR)$(HOME)/.bash/$$file; \
+		$(INSTALL_DATA) $$file $(DESTDIR)$(HOME)/.bash/`basename $$file`; \
 	done
-	mkdir $(DESTDIR)$(HOME)/.bash_completion.d; \
+	$(INSTALL_DIR) $(DESTDIR)$(HOME)/.bash_completion.d; \
 	for file in $(COMPFILES); do \
-		install -m 644 $$file $(DESTDIR)$(HOME)/.bash_completion.d/$$file; \
+		$(INSTALL_DATA) $$file \
+			$(DESTDIR)$(HOME)/.bash_completion.d/`basename $$file`; \
 	done
 
 test: $(DOTFILES) $(BASHFILES) $(COMPFILES)
@@ -86,10 +90,10 @@ snapshot: DISTNAME=dotbash-$(shell date -I)
 snapshot: _gen_dist
 _gen_dist: README.rst ChangeLog TODO $(DOTFILES) $(BASHFILES) $(RLFILES) \
 	$(COMPFILES)
-	-mkdir -p $(DISTNAME)/bash{,_completion.d}; \
-	cp $(DOTFILES) README.rst ChangeLog TODO $(DISTNAME); \
-	cp $(BASHFILES) $(RLFILES) $(DISTNAME)/bash; \
-	cp $(COMPFILES) $(DISTNAME)/bash_completion.d; \
+	$(INSTALL_DIR) $(DISTNAME)/bash{,_completion.d}; \
+	$(INSTALL_DATA) $(DOTFILES) README.rst ChangeLog TODO $(DISTNAME); \
+	$(INSTALL_DATA) $(BASHFILES) $(RLFILES) $(DISTNAME)/bash; \
+	$(INSTALL_DATA) $(COMPFILES) $(DISTNAME)/bash_completion.d; \
 	tar cjfv $(DISTNAME).tar.bz2 \
 		`find $(DISTNAME) -not -type d | sort`; \
 	rm -rf $(DISTNAME)
