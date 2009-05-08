@@ -40,3 +40,6 @@ fi
 
 [ -f ${HOME}/.startx ] && [ ${TTY} = /dev/tty1 ] && exec startx
 
+# Always finish with return code 0
+:
+
