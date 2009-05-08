@@ -1,0 +1,93 @@
+# ~/.bash/envvar
+# vim: set syntax=sh filetype=sh sw=4 sts=4 et tw=80 fileencoding=utf-8:
+
+# Set the default text editor to use.  Many programs read the value of
+# EDITOR/VISUAL to let users choose their own editor.
+export EDITOR=vim
+export VISUAL=${EDITOR}
+# We also define the default editor for slang tools here, to account for
+# misbehaving tools which don't check EDITOR.  SLANG_EDITOR can however
+# use extra options not available in EDITOR, such as 'vim +%d %s' to set
+# the start line.
+export SLANG_EDITOR=${EDITOR}
+# FCEDIT is the editor to use when changing and re-executing previous
+# commands.  Be careful if you choose gvim as the default editor, or any
+# other forking editor.  In the case of gvim set EDITOR to "gvim -f" to
+# make gvim stay in the foreground.
+export FCEDIT=vim
+
+# Make sure a HOSTNAME value is set, as some programs can break if it is
+# either unset or incorrectly set.
+export HOSTNAME=${HOSTNAME:-$(hostname)}
+
+# Set user specific language options, for a list of possible codes and
+# their associated languages look at /usr/share/locale/locale.alias
+#export LANG=C
+#export LC_ALL=C
+#export LC_COLLATE=C
+#export LC_CTYPE=C
+#export LC_MESSAGES=C
+#export LC_MONETARY=C
+#export LC_NUMERIC=C
+#export LC_TIME=C
+# GNU systems also support these non-POSIX extensions.
+#export LANGUAGE=C
+#export LC_ADDRESS=C
+#export LC_IDENTIFICATION=C
+#export LC_MEASUREMENT=C
+#export LC_NAME=C
+#export LC_PAPER=C
+#export LC_TELEPHONE=C
+
+# Export the path to use for dynamic libraries, this is the place to add
+# local definitions such as ~/lib if you wish to install packages with
+# dynamic libraries in your home directory.
+makepath LD_LIBRARY_PATH /lib /usr/lib /usr/X11R6/lib /usr/local/lib \
+    ${HOME}/lib ${HOME}/local/bin
+
+# Default options to use with the less command.
+export LESS='-aCIMqrs'
+# Default character set to use when displaying files in less
+export LESSCHARSET=utf-8
+# Input preprocessor for the less command, using lesspipe.sh allows you
+# to view files in archives/compressed files/etc.
+export LESSOPEN='| lesspipe.sh %s'
+
+# Set the default command to use when programs wish to use "page" a file
+# for a user.  You can also specify a text editor here if you prefer the
+# interface they provide.
+export PAGER='less'
+#export PAGER='/usr/share/vim/vim63/macros/less.sh'
+#export PAGER='/usr/bin/vimpager'
+
+# Export the command path to use, this is place to add paths like ~/bin
+# should you wish to install software or scripts in locally.
+# By default PATH doesn't include the current directory, as in general
+# it is an incredibly foolish idea to do so.  If you _really_ want to
+# add it then edit the -local file.
+makepath PATH /usr/local/bin /usr/bin /bin /usr/X11/bin /usr/games/bin \
+    ${HOME}/bin ${HOME}/.local/bin ${HOME}/scripts
+
+# The following adds admin directories to PATH, which may or may not be
+# useful on your systems
+makepath -e PATH /usr/sbin /sbin
+
+# Specify the path to the terminal info database.
+export TERMINFO='/usr/share/terminfo'
+
+# Set the value of TTY, this is used by many commands to ease the
+# display of output.  This should already be set.
+export TTY=${TTY:-$(tty)}
+
+# Set the timezone variable, see /usr/share/zoneinfo to see available
+# options.
+export TZ=Europe/London
+
+# When ${USER} is unset fallback on ${LOGNAME}.  There may be a few
+# corner cases where ${LOGNAME} is also unset, but until I see one in
+# the wild I don't want to go down that route.
+export USER=${USER:-${LOGNAME}}
+
+# Set readline to use emacs style keys.
+set -o emacs
+
