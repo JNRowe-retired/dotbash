@@ -2,10 +2,18 @@
 
 SHELL := bash
 
+VERSION := $(shell git tag -l | sort -n)
+VERSION_MAJ := $(word 1, $(subst ., , $(VERSION)))
+VERSION_MIN := $(word 2, $(subst ., , $(VERSION)))
+VERSION_MIC := $(word 3, $(subst ., , $(VERSION)))
+EDITS := $(shell [ `git log $(VERSION)..master | wc -l` != 0 ] && echo "+")
+
 DOTFILES := bash_login bash_logout
 BASHFILES := alias envvar envvar-int functions lib
 RLFILES := inputrc
 COMPFILES := func
+
+.PHONY: major minor micro
 
 all:
 	$(info Installing this package will overwrite important \
@@ -29,4 +37,14 @@ endif
 		install -m 644 bash_completion.d/$$file \
 			$(DESTDIR)$(HOME)/.bash_completion.d/$$file; \
 	done
+
+major:
+	new_VERSION=$$(($(VERSION_MAJ)+1)).0.0; \
+	git tag -s -m"Tagged $$new_VERSION" $$new_VERSION
+minor:
+	new_VERSION=$(VERSION_MAJ).$$(($(VERSION_MIN)+1)).0; \
+	git tag -s -m"Tagged $$new_VERSION" $$new_VERSION
+micro:
+	new_VERSION=$(VERSION_MAJ).$(VERSION_MIN).$$(($(VERSION_MIC)+1)); \
+	git tag -s -m"Tagged $$new_VERSION" $$new_VERSION
 
