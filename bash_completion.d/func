@@ -1,0 +1,3 @@
+# Completion for the dotbash func().
+complete -F _function func
+

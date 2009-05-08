@@ -5,6 +5,7 @@ SHELL := bash
 DOTFILES := bash_login bash_logout
 BASHFILES := alias envvar envvar-int functions lib
 RLFILES := inputrc
+COMPFILES := func
 
 all:
 	$(info Installing this package will overwrite important \
@@ -22,5 +23,10 @@ endif
 	mkdir $(DESTDIR)$(HOME)/.bash; \
 	for file in $(BASHFILES) $(RLFILES); do \
 		install -m 644 bash/$$file $(DESTDIR)$(HOME)/.bash/$$file; \
+	done
+	mkdir $(DESTDIR)$(HOME)/.bash_completion.d; \
+	for file in $(COMPFILES); do \
+		install -m 644 bash_completion.d/$$file \
+			$(DESTDIR)$(HOME)/.bash_completion.d/$$file; \
 	done
 
