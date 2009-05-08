@@ -24,6 +24,7 @@ then
         [ -f ~/.bash/${file}-${HOSTNAME} ] && . ~/.bash/${file}-${HOSTNAME}
     done
     unset file
+
     [ -f /usr/share/cdargs/cdargs-bash.sh ] && . /usr/share/cdargs/cdargs-bash.sh
     if [ -f /etc/profile.d/bash-completion ]
     then
@@ -31,9 +32,9 @@ then
     elif [ -f /etc/bash_completion ]
     then
         . /etc/bash_completion
-        [ -f ~/.bash/completion-local ] && . ~/.bash/completion-local
-        [ -f ~/.bash/completion-${HOSTNAME} ] && . ~/.bash/completion-${HOSTNAME}
     fi
+    [ -f ~/.bash/completion-local ] && . ~/.bash/completion-local
+    [ -f ~/.bash/completion-${HOSTNAME} ] && . ~/.bash/completion-${HOSTNAME}
 
     [ -f ~/.bash/hosts/${HOSTNAME} ] && . ~/.bash/hosts/${HOSTNAME}
 fi
