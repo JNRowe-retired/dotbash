@@ -13,7 +13,9 @@ BASHFILES := alias envvar envvar-int functions lib
 RLFILES := inputrc
 COMPFILES := func
 
-.PHONY: ChangeLog major minor micro
+DIRT := ChangeLog TODO
+
+.PHONY: ChangeLog clean distclean major minor micro patchclean
 
 all:
 	$(info Installing this package will overwrite important \
@@ -52,4 +54,11 @@ minor:
 micro:
 	new_VERSION=$(VERSION_MAJ).$(VERSION_MIN).$$(($(VERSION_MIC)+1)); \
 	git tag -s -m"Tagged $$new_VERSION" $$new_VERSION
+
+clean:
+	rm ~*
+distclean: clean
+	rm $(DIRT)
+patchclean:
+	find -name *.orig -name *.rej -exec rm {} \;
 
