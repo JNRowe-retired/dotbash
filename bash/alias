@@ -1,0 +1,44 @@
+# ~/.bash/alias
+# vim: set syntax=sh filetype=sh sw=4 sts=4 et tw=80 fileencoding=utf-8:
+
+# Display time since shell session was started in HH:MM:SS
+alias bashtime='printf "Session started %d:%2d:%2d ago\n" $(( ${SECONDS} / 3600 )) $(( ( ${SECONDS} / 60 ) % 60 )) $(( ${SECONDS} % 60 ))'
+
+# Make df produce human readable sizes by default, and display file
+# system type
+alias df="df -hT"
+
+# Make links place all downloaded files in the '~/downloads' directory
+#alias links="links -download-dir ~/downloads"
+
+# Make ls columnise and classify filetype by default.  And use if
+# colours if possible.  d, ls and ll are user-compatibility aliases
+# setup in most distributions.
+alias ls="ls -CF --color=auto"
+alias d="ls --color"
+alias ls="ls --color=auto"
+alias ll="ls --color -l"
+
+# Make grep colourise output when stdout is a terminal.
+alias grep='grep --color=auto'
+
+# Make midnight commander user colour by default, and stop it using the
+# mouse
+#alias mc="mc -cd"
+#alias mcedit="mc -cd"
+
+# A simple way to use ccache(1) for a single project
+alias ccachemake='PATH="/usr/lib/ccache/bin:${PATH}" make'
+
+# Make sure root account gets interactive mode.  It may be useful as a user
+# too, but default for root only, but it annoys me.
+if [ "${UID}" = "0" ]
+then
+	alias cp='cp -i'
+	alias mv='mv -i'
+	alias rm='rm -i'
+fi
+
+# Quick jump up the tree.
+alias ..="cd .."
+
