@@ -8,6 +8,9 @@ fi
 
 [ -f ~/.bash/lib ] && . ~/.bash/lib
 
+# No core dumps
+ulimit -c 0
+
 # Set a reasonable file creation mask.
 umask 022
 
