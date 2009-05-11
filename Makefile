@@ -5,11 +5,20 @@ INSTALL := $(shell type -P ginstall >/dev/null && echo ginstall || echo install)
 INSTALL_DIR := $(INSTALL) -d
 INSTALL_DATA := $(INSTALL) -m 644 -p
 
-VERSION := $(shell git tag -l | sort -n)
+ifeq (, $(wildcard .git))
+	VERSION := $(shell cat .version)
+else
+	VERSION := $(shell git describe)
+endif
 VERSION_MAJ := $(word 1, $(subst ., , $(VERSION)))
 VERSION_MIN := $(word 2, $(subst ., , $(VERSION)))
-VERSION_MIC := $(word 3, $(subst ., , $(VERSION)))
-EDITS := $(shell [ `git log $(VERSION)..master | wc -l` != 0 ] && echo "+")
+VERSION_MIC := $(word 1, $(subst -, ,$(word 3, $(subst ., , $(VERSION)))))
+EDITS := $(word 2, $(subst -, ,$(VERSION)))
+ifeq (, $(EDITS))
+VERSION := $(VERSION_MAJ).$(VERSION_MIN).$(VERSION_MIC)
+else
+VERSION := $(VERSION_MAJ).$(VERSION_MIN).$(VERSION_MIC)-$(EDITS)
+endif
 
 DOTFILES := bash_login bash_logout
 BASHFILES := alias envvar envvar-int functions lib
@@ -91,9 +100,10 @@ snapshot: _gen_dist
 _gen_dist: README.rst ChangeLog TODO $(DOTFILES) $(BASHFILES) $(RLFILES) \
 	$(COMPFILES)
 	$(INSTALL_DIR) $(DISTNAME)/bash{,_completion.d}; \
-	$(INSTALL_DATA) $(DOTFILES) README.rst ChangeLog TODO $(DISTNAME); \
+	$(INSTALL_DATA) $(DOTFILES) COPYING Makefile README.rst ChangeLog TODO $(DISTNAME); \
 	$(INSTALL_DATA) $(BASHFILES) $(RLFILES) $(DISTNAME)/bash; \
 	$(INSTALL_DATA) $(COMPFILES) $(DISTNAME)/bash_completion.d; \
+	git describe >$(DISTNAME)/.version; \
 	tar cjfv $(DISTNAME).tar.bz2 \
 		`find $(DISTNAME) -not -type d | sort`; \
 	rm -rf $(DISTNAME)
