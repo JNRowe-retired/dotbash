@@ -11,6 +11,15 @@ with `Bugs Everywhere`_, so if you're working with a clone of the
 repository you can report, list and fix bugs directly in the
 repository [#]_.
 
+Installation
+------------
+
+Before installing the package you are required to read the ``Makefile``
+so that you understand how it could break your current setup.  It will
+likely be quite difficult to install the package if you don't read the
+``Makefile`` thoroughly, this is on purpose and not a bug that needs
+reporting.
+
 .. [#] If you're using Gentoo_ you can find an ebuild for `Bugs Everywhere`_, in my overlay_.
 
 .. _bash: http://www.gnu.org/software/bash/
