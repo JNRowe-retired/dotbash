@@ -42,3 +42,6 @@ fi
 # Quick jump up the tree.
 alias ..="cd .."
 
+# Test package installs in parent directory
+alias tempconf='./configure  --prefix="${PWD}_inst"'
+
