@@ -124,23 +124,25 @@ top()
 
 throw()
 {
-	if [ "${#}" -lt 1 -o "${1}" = "--help"]
-		echo "Usage: ${FUNCNAME} [string]" >&2
-		echo "Emit an error, and optionally log if DOTBASH_LOGFILE is set"
-	fi
-	echo "ERROR: $@" >&2
-	[ -n "${DOTBASH_LOGFILE}" ] && echo "ERROR: $@" >>${DOTBASH_LOGFILE}
-	exit 1
+    if [ "${#}" -lt 1 -o "${1}" = "--help"]
+    then
+        echo "Usage: ${FUNCNAME} [string]" >&2
+        echo "Emit an error, and optionally log if DOTBASH_LOGFILE is set"
+    fi
+    echo "ERROR: $@" >&2
+    [ -n "${DOTBASH_LOGFILE}" ] && echo "ERROR: $@" >>${DOTBASH_LOGFILE}
+    exit 1
 }
 
 warn()
 {
-	if [ "${#}" -lt 1 -o "${1}" = "--help"]
-		echo "Usage: ${FUNCNAME} [string]" >&2
-		echo "Emit a warning, and optionally log if DOTBASH_LOGFILE is set"
-	fi
-	echo "WARN: $@" >&2
-	[ -n "${DOTBASH_LOGFILE}" ] && echo "WARN: $@" >>${DOTBASH_LOGFILE}
+    if [ "${#}" -lt 1 -o "${1}" = "--help"]
+    then
+        echo "Usage: ${FUNCNAME} [string]" >&2
+        echo "Emit a warning, and optionally log if DOTBASH_LOGFILE is set"
+    fi
+    echo "WARN: $@" >&2
+    [ -n "${DOTBASH_LOGFILE}" ] && echo "WARN: $@" >>${DOTBASH_LOGFILE}
 }
 
 xtitle()
