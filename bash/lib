@@ -14,12 +14,33 @@ makepath()
     for elem in ${elems[@]}
     do
         [ -d ${elem} ] || continue
-        newpath+=:$elem
+        newpath+=:$(readlink -f $elem)
     done
     if [ "${expand}" == "true" -a ! -z "${!path}" ]
     then
         newpath=:${!path}${newpath}
     fi
     eval ${path}=${newpath:1:$((${#newpath} - 1))}
+}
+
+testpath()
+{
+    local path=$1 elem=$(readlink -f $2)
+    case "${!path}" in
+    ${elem}|${elem}:*|*:${elem}|*:${elem}:*)
+        return 0 ;;
+    *)
+        return 1
+    esac
+}
+
+rmpath()
+{
+    local path=$1 elem=$2 newpath=${!1}
+    testpath $path $elem || return 1
+    newpath=${newpath/#${elem}:}
+    newpath=${newpath//:${elem}:/:}
+    newpath=${newpath/%:${elem}}
+    eval ${path}=${newpath}
 }
 
