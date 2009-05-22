@@ -1,6 +1,13 @@
 # ~/.bash_login
 # vim: set syntax=sh filetype=sh sw=4 sts=4 et tw=80 fileencoding=utf-8:
 
+if type -P dtach >/dev/null && \
+    [ "$(readlink -f /proc/$PPID/exe)" != "/usr/bin/dtach" ]
+then
+    [ ! -d ${TMPDIR:-/tmp}/dtach ] && mkdir ${TMPDIR:-/tmp}/dtach
+    exec dtach -A ${TMPDIR:-/tmp}/dtach/tty${TTY//\//_} bash --login
+fi
+
 if [ "${-/i/}" != "${-}" ]
 then
     [ -f /etc/bashrc ] && . /etc/bashrc
