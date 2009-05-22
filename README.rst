@@ -20,7 +20,22 @@ likely be quite difficult to install the package if you don't read the
 ``Makefile`` thoroughly, this is on purpose and not a bug that needs
 reporting.
 
-.. [#] If you're using Gentoo_ you can find an ebuild for `Bugs Everywhere`_, in my overlay_.
+History
+-------
+
+Initially, a few people at work were talking about all the hacks they
+have in their bash_ config files wondering who had the coolest setups
+and what they bits they should steal when Rach Holmes decided to mash
+all of the together in to a package everyone could use and most
+importantly fix bugs in.  Rach maintained this for a few years, and then
+changed shells in a fit of heresy.
+
+After a year or two I've decided to start maintaining the package
+properly, as I was already adding features and fixing bugs in my own
+systems.
+
+.. [#] If you're using Gentoo_ you can find an ebuild for `Bugs Everywhere`_,
+       in my overlay_.
 
 .. _bash: http://www.gnu.org/software/bash/
 .. _readline: http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html
