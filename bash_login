@@ -10,7 +10,7 @@ then
         : ;;
     *)
         [ ! -d ${TMPDIR:-/tmp}/dtach ] && mkdir ${TMPDIR:-/tmp}/dtach
-        exec dtach -A ${TMPDIR:-/tmp}/dtach/tty${TTY//\//_} bash --login
+        exec dtach -A ${TMPDIR:-/tmp}/dtach/$(tty | tr '/' '_') bash --login
     esac
 fi
 
