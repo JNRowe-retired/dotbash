@@ -75,9 +75,9 @@ makepath -e PATH /usr/sbin /sbin
 # Specify the path to the terminal info database.
 export TERMINFO='/usr/share/terminfo'
 
-# Set the value of TTY, this is used by many commands to ease the
-# display of output.  This should already be set.
-export TTY=${TTY:-$(tty)}
+# Set the value of TTY, this is used by many commands to set the
+# display for output.
+export TTY=$(tty)
 
 # Set the timezone variable, see /usr/share/zoneinfo to see available
 # options.
