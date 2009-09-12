@@ -21,6 +21,18 @@ alias-add()
     alias ${name}
 }
 
+e()
+{
+    if [ "${#}" -eq 0 -o "${1}" = "--help" ]
+    then
+        echo "Usage:  ${FUNCNAME} [file...]"
+        echo "Edit files in the user's default editor."
+        return 1
+    fi
+
+    ${EDITOR} "${@}"
+}
+
 func()
 {
     if [ "${#}" -eq 0 -o "${1}" = "--help" ]
@@ -98,6 +110,18 @@ mutt()
 {
     xtitle "Mutt"
     command mutt $@
+}
+
+p()
+{
+    if [ "${#}" -eq 0 -o "${1}" = "--help" ]
+    then
+        echo "Usage:  ${FUNCNAME} [file...]"
+        echo "Display the file in the user's default pager."
+        return 1
+    fi
+
+    ${PAGER} "${@}"
 }
 
 repcom()
