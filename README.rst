@@ -7,9 +7,8 @@ you'll spot *and* fix a bug!
 
 If you find any problems with the configuration files in this repository
 either drop me an email_ or file an issue_.  Locally, bugs are managed
-with `Bugs Everywhere`_, so if you're working with a clone of the
-repository you can report, list and fix bugs directly in the
-repository [#]_.
+with ditz_, so if you're working with a clone of the repository you can
+report, list and fix bugs directly in the repository [#]_.
 
 Installation
 ------------
@@ -41,7 +40,7 @@ systems.
 .. _readline: http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html
 .. _email: jnrowe@gmail.com
 .. _issue: http://github.com/JNRowe/misc-overlay/issues
-.. _Bugs Everywhere: http://bugseverywhere.org/be/show/HomePage
+.. _ditz: http://ditz.rubyforge.org/
 .. _Gentoo: http://www.gentoo.org/
 .. _overlay: http://github.com/JNRowe/misc-overlay/tree
 
