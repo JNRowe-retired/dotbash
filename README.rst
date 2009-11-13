@@ -39,7 +39,7 @@ systems.
 .. _bash: http://www.gnu.org/software/bash/
 .. _readline: http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html
 .. _email: jnrowe@gmail.com
-.. _issue: http://github.com/JNRowe/misc-overlay/issues
+.. _issue: http://github.com/JNRowe/dotbash/issues
 .. _ditz: http://ditz.rubyforge.org/
 .. _Gentoo: http://www.gentoo.org/
 .. _overlay: http://github.com/JNRowe/misc-overlay/tree
