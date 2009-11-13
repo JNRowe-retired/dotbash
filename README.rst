@@ -33,8 +33,8 @@ After a year or two I've decided to start maintaining the package
 properly, as I was already adding features and fixing bugs in my own
 systems.
 
-.. [#] If you're using Gentoo_ you can find an ebuild for `Bugs Everywhere`_,
-       in my overlay_.
+.. [#] If you're using Gentoo_ you can find an ebuild for ditz_, in my
+       overlay_.
 
 .. _bash: http://www.gnu.org/software/bash/
 .. _readline: http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html
